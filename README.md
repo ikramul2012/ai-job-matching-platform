@@ -7,30 +7,30 @@
 ```mermaid
 flowchart TD
   %% Layout
-  subgraph UserLayer[ "User / Client" ]
-    A[Browser / Mobile App]
+  subgraph UserLayer[User / Client]
+    A[Browser]
   end
 
-  subgraph CDN_Frontend["CDN / Frontend Hosting"]
+  subgraph CDN_Frontend[CDN / Frontend Hosting]
     F[Vercel (Frontend)]
   end
 
-  subgraph APIGW["API Gateway / BFF"]
-    GW[API Gateway (Nginx / Kong / Laravel BFF)]
+  subgraph APIGW[API Gateway]
+    GW[API Gateway (Laravel)]
   end
 
-  subgraph Services["Microservices Cluster"]
-    Auth[Auth Service]\n(JWT / OAuth)
-    Profile[User Profile Service]\n(Resume upload & parse)
-    JobSvc[Job Service]\n(CRUD + job metadata)
-    ML[ML Matching Service]\n(FastAPI + embeddings)
-    Career[Career Rec Service]\n(Skill-gap + courses)
-    Notify[Notification Service]\n(Email / Push)
+  subgraph Services[Microservices Cluster]
+    Auth[Auth Service - JWT/OAuth]
+    Profile[User Profile Service - Resume upload & parse]
+    JobSvc[Job Service - CRUD + job metadata]
+    ML[ML Matching Service - FastAPI + embeddings]
+    Career[Career Rec Service - Skill-gap + courses]
+    Notify[Notification Service - Email / Push]
   end
 
-  subgraph DataLayer["Data & Infra"]
-    DB[(Postgres / MySQL)]
-    Vector[(Chroma / FAISS Vector DB)]
+  subgraph DataLayer[Data & Infra]
+    DB[(MySQL)]
+    Vector[(Pinecone)]
     DVCStorage[(DVC Remote / S3 / Git LFS)]
     MLflow[(MLflow Tracking Server)]
     Redis[(Redis Queue / Cache)]
@@ -68,10 +68,6 @@ flowchart TD
   Profile --> Logs
 
   Redis -->|task queue| Profile
-
-  %% Styling
-  classDef services fill:#f8f9fa,stroke:#222,stroke-width:1px;
-  class Services services;
 ```
 
 ---
@@ -224,13 +220,13 @@ Core tables: `users`, `candidates`, `jobs`, `skills`, `job_skills`, `recommendat
 
 ## docker-compose
 
-Includes Postgres, Redis, Chroma, ML Service, Backend.
+Includes Mysql, Redis, Pinecone, ML Service, Backend.
 
 ---
 
 ## Starter ML Service (FastAPI)
 
-Minimal app with `/embed`, `/upsert`, `/recommend` endpoints using `sentence-transformers` + Chroma.
+Minimal app with `/embed`, `/upsert`, `/recommend` endpoints using `sentence-transformers` + Pinecone.
 
 ---
 
@@ -253,7 +249,7 @@ GitHub Actions: lint, test, build, deploy.
 
 * DVC for datasets & artifacts
 * MLflow for tracking experiments
-* Eval metrics: Precision@k, Recall@k, NDCG
+* Eval metrics: Precision, Recall
 
 ---
 
@@ -266,23 +262,6 @@ Grafana, Prometheus, Loki. Track latency, errors, embedding performance.
 ## Security
 
 HTTPS, encryption, masked logs, rate limits, rotated credentials.
-
----
-
-## Interview Talking Points
-
-* Microservices benefits
-* Scaling strategies
-* MLOps practices
-* Security measures
-
----
-
-## Next Steps
-
-* Human-in-loop feedback
-* Multi-lingual support
-* Recruiter A/B testing
 
 ---
 
