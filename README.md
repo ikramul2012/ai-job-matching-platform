@@ -7,19 +7,19 @@
 ```mermaid
 flowchart TD
   %% Layout
-  subgraph UserLayer[User / Client]
+  subgraph UserLayer
     A[Browser]
   end
 
-  subgraph CDN_Frontend[CDN / Frontend Hosting]
-    F[Vercel (Frontend)]
+  subgraph CDN_Frontend
+    F[Vercel - Frontend Hosting]
   end
 
-  subgraph APIGW[API Gateway]
-    GW[API Gateway (Laravel)]
+  subgraph APIGW
+    GW[API Gateway - Laravel BFF]
   end
 
-  subgraph Services[Microservices Cluster]
+  subgraph Services
     Auth[Auth Service - JWT/OAuth]
     Profile[User Profile Service - Resume upload & parse]
     JobSvc[Job Service - CRUD + job metadata]
@@ -28,7 +28,7 @@ flowchart TD
     Notify[Notification Service - Email / Push]
   end
 
-  subgraph DataLayer[Data & Infra]
+  subgraph DataLayer
     DB[(MySQL)]
     Vector[(Pinecone)]
     DVCStorage[(DVC Remote / S3 / Git LFS)]
@@ -68,6 +68,7 @@ flowchart TD
   Profile --> Logs
 
   Redis -->|task queue| Profile
+
 ```
 
 ---
